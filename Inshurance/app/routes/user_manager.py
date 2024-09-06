@@ -16,14 +16,17 @@ def register_agents():
     return jsonify({"result": "register_agents"}), 200
 
 
-@user_bp.route('/api/register/clients', methods=['GET', 'POST'])
+@user_bp.route('/api/register/clients', methods=['POST'])
 def register_clients():
     
     data = request.json
     user_login = data.get('user_login')
     password = data.get('password')
     
-    UserManager.register_client
+    if not user_login or not password:
+        return jsonify({"result": "User login and password are required!"}), 400
+    
+    UserManager.register_client(user_login, password)
     
     return jsonify({"result": "register_clients"}), 200
 

@@ -10,10 +10,11 @@ class UserManager():
         pass
     
     
-    def register_client(user_login):
+    def register_client(user_login, password):
         
         query = f'SELECT * FROM Users WHERE user_login={user_login}'
         result = execute_query(query)
+        print(result)
     
     
     def login():
