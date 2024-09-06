@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.utils import execute_query
+from app.utils import login_required, permission_required
 from ..services.user_manager import UserManager
 
 
@@ -11,13 +11,8 @@ def home_page():
     return jsonify({"result": "home page feels ok!"}), 200
 
 
-@user_bp.route('/api/register/agents', methods=['GET', 'POST'])
-def register_agents():
-    return jsonify({"result": "register_agents"}), 200
-
-
-@user_bp.route('/api/register/clients', methods=['POST'])
-def register_clients():
+@user_bp.route('/api/register', methods=['POST'])
+def register():
     
     data = request.json
     user_login = data.get('user_login')
@@ -26,21 +21,27 @@ def register_clients():
     if not user_login or not password:
         return jsonify({"result": "User login and password are required!"}), 400
     
-    UserManager.register_client(user_login, password)
-    
-    return jsonify({"result": "register_clients"}), 200
+    return UserManager.register(user_login, password)
 
 
-@user_bp.route('/api/login', methods=['GET', 'POST'])
+@user_bp.route('/api/login', methods=['POST'])
 def login():
     
     data = request.json
     user_login = data.get('user_login')
     password = data.get('password')
     
-    if not user_login or password:
+    if not user_login or not password:
+        print(user_login, password)
+        print(data)
         return jsonify({"result": "User login and password are required!"}), 400
     
-    # UserManager.login
+    return UserManager.login(user_login, password)
+
+
+@user_bp.route('/api/become_client', methods=['GET', 'POST'])
+@login_required
+@permission_required('client')
+def become_client(current_user):
     
-    return jsonify({"result": "login"}), 200
+    return jsonify({"result": f"{current_user}"}), 200

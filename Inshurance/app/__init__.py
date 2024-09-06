@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-import datetime
+from datetime import datetime
 import logging
 import json
 import os
@@ -20,7 +20,7 @@ def create_app():
     from .routes.polis_manager import polis_bp
     app.register_blueprint(polis_bp)
     
-    app.errorhandler(404)
+    @app.errorhandler(404)
     def not_found(e):
         formatted_date = datetime.now().strftime("%d/%b/%Y")
         logging.warning(f' [{formatted_date}] 404 - Not Found')

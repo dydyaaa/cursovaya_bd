@@ -1,5 +1,7 @@
 from app import create_app
+from app.models import initialize_database
 
+initialize_database()
 app = create_app()
 
 if __name__ == "__main__":
