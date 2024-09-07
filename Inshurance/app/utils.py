@@ -69,21 +69,7 @@ def login_required(f):
     
     return decorated_function
 
-# def permission(necessary_role, current_user):
-    
-#     role_rank = {
-#         'client': 1,
-#         'agent': 2,
-#         'admin': 3
-#     }
-    
-#     current_role = role_rank.get((current_user[0].get('user_role')), 0)
-#     necessary_role = role_rank.get(necessary_role, 0)
-    
-#     if current_role >= necessary_role:
-#         continue
-#     else:
-#         stop
+
 def permission_required(necessary_role):
     def decorator(f):
         @wraps(f)
@@ -98,7 +84,6 @@ def permission_required(necessary_role):
             
             current_role = role_rank.get(current_user[0].get('user_role'), 0)
             necessary_rank = role_rank.get(necessary_role, 0)
-            print(current_role, necessary_rank)
             if current_role >= necessary_rank:
                 return f(*args, **kwargs)
             else:

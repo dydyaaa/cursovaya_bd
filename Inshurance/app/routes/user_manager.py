@@ -39,9 +39,11 @@ def login():
     return UserManager.login(user_login, password)
 
 
-@user_bp.route('/api/become_client', methods=['GET', 'POST'])
+@user_bp.route('/api/become_client', methods=['POST'])
 @login_required
 @permission_required('client')
 def become_client(current_user):
     
-    return jsonify({"result": f"{current_user}"}), 200
+    data = request.json
+    
+    return UserManager.become_client(data, current_user)

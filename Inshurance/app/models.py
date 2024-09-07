@@ -19,6 +19,7 @@ def initialize_database():
 
     query = ''' CREATE TABLE IF NOT EXISTS Clients (
                 client_id SERIAL PRIMARY KEY,
+                client_name VARCHAR(255) NOT NULL,
                 birth_day DATE NOT NULL,
                 passport_series INTEGER NOT NULL,
                 passport_number INTEGER NOT NULL,

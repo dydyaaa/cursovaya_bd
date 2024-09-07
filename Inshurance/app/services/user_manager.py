@@ -43,7 +43,51 @@ class UserManager():
                 return jsonify({"result": "Авториязация успешна", "token": token}), 200
             else:
                 return jsonify({"result": "Неверный пароль!"}), 403
+            
     
+    def become_client(data, current_user):
+    
+        birth_day = data.get('birth_day')
+        client_name = data.get('client_name')
+        passport_series = data.get('passport_series')
+        passport_number = data.get('passport_number')
+        contact_number = data.get('contact_number')
+        address = data.get('address')
+        user_id = current_user[0].get('user_id')
+        
+        query = """SELECT * FROM Clients WHERE passport_series = %s AND passport_number = %s"""
+        params = (passport_series, passport_number)
+        result = execute_query(query, params)
+        
+        if result:
+            return jsonify({"result": "Пользователь с таким паспортом уже зарегистрирован!"}), 403
+        
+        query = """SELECT * FROM Clients WHERE contact_number = %s"""
+        params = (contact_number, )
+        result = execute_query(query, params)
+        
+        if result:
+            return jsonify({"result": "Пользователь с таким номером уже зарегистрирован!"}), 403
+        
+        birth_date = datetime.datetime.strptime(birth_day, '%Y-%m-%d')
+        today = datetime.datetime.today()
+        age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+        if age < 18:
+            return jsonify({"result": "Для того, чтобы стать клиентом, Вы дожны быть совершеннолетним!"}), 403
+        
+        query = """INSERT INTO Clients (client_name, birth_day, passport_series, passport_number, contact_number, address, user_id)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+        params = (client_name, birth_day, passport_series, passport_number, contact_number, address, user_id)
+        
+        execute_query(query, params)
+        
+        return jsonify({"birth_day": birth_day, 
+                        "passport_series": passport_series,
+                        "passport_number": passport_number,
+                        "contact_number": contact_number,
+                        "address": address,
+                        "user_id": user_id}), 200
+
     
     @staticmethod
     def create_token(user_login):
