@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Профиль
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>Профиль пользователя</h3>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-start align-items-center mb-4">
+                        <!-- Аватар пользователя -->
+                        <img src="../static/img/sogaz_sign.png" alt="User Avatar" class="avatar me-4">
+                        
+                        <!-- Основная информация -->
+                        <div>
+                            <h4 id="user-login">Логин: {{ data['user_login'] }}</h4>
+                            <p id="user-status">Статус: {{ data['user_role'] }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Условная информация -->
+                    {% if data['user_role'] != 'guest' %}
+                    <div id="additional-info" class="mb-4">
+                        <p><strong>Имя:</strong> {{ client['client_name'] }}</p>
+                        <p><strong>Дата рождения:</strong> {{ client['birth_day'] }}</p>
+                        <p><strong>Паспорт:</strong> {{ client['passport_series'] }}  {{ client['passport_number'] }}</p>
+                        <p><strong>Телефон:</strong> {{ client['contact_number'] }}</p>
+                        <p><strong>Адрес:</strong> {{ client['address'] }}</p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Кнопки-ссылки -->
+                    {% if data['user_role'] == 'guest' %}
+                    <div class="btn-group-row d-flex flex-wrap gap-2">
+                        <a href="/become_client" class="btn btn-primary w-100">Стать клиентом</a>
+                    </div>
+                    {% endif %}
+                    {% if data['user_role'] != 'guest' %}
+                    <div class="btn-group-row d-flex flex-wrap gap-2">
+                        <a href="/policies/new" class="btn btn-primary w-100">Оформить полис</a>
+                        <a href="/policies" class="btn btn-primary w-100">Мои полисы</a>
+                    </div>
+                    <div class="btn-group-row d-flex flex-wrap gap-2">
+                        <a href="/cases/new" class="btn btn-primary w-100">Оформить происшествие</a>
+                        <a href="/cases" class="btn btn-primary w-100">Мои происшествия</a>
+                    </div>
+                    {% endif %}
+                    <div class="btn-group-row d-flex flex-wrap gap-2">
+                        <a href="/profile/change_password" class="btn btn-primary w-100">Сменить пароль</a>
+                        <a href="/profile/change_info" class="btn btn-primary w-100">Сменить информацию</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

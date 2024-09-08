@@ -81,13 +81,22 @@ class UserManager():
         
         execute_query(query, params)
         
-        return jsonify({"birth_day": birth_day, 
-                        "passport_series": passport_series,
-                        "passport_number": passport_number,
-                        "contact_number": contact_number,
-                        "address": address,
-                        "user_id": user_id}), 200
+        query = """UPDATE Users SET user_role = %s WHERE user_id = %s"""
+        params = ('Client', user_id)
+        
+        execute_query(query, params)
+        
+        return jsonify({"result": "ok"}), 200
 
+    
+    def profile(current_user):
+        
+        query = "SELECT * FROM Clients WHERE user_id = %s"
+        params = (current_user[0]['user_id'], )
+        client = execute_query(query, params, return_json=True)
+        client[0]['birth_day'] = client[0]['birth_day'].strftime('%d.%m.%Y')
+        return jsonify({"result": current_user, "client": client}), 200
+    
     
     @staticmethod
     def create_token(user_login):

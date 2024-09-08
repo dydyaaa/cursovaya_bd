@@ -19,18 +19,15 @@
             <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
                 <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
                     
-                    <span class="fs-4">СОГАЗ</span>
+                    <span class="fs-4">СОГАЗ для сотрудников</span>
                 </a>
 
                 <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                    {% if token %}
-                        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile">Рассчитать стоимость услуг</a>
-                        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile">Профиль</a>
+                        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile">Все полисы</a>
+                        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile">Полисы для подтверждения</a>
+                        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile">Все проишествия</a>
+                        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/profile">Проишествия для подтверждения</a>
                         <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/logout">Выйти</a>
-                    {% else %}
-                        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/login">Авторизация</a>
-                        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/register">Регистрация</a>
-                    {% endif %}
                 </nav>
             </div>
 

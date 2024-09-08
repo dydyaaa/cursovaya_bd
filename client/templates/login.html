@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Новости
+Логин
 {% endblock %}
 
 {% block content %}
-Опа login
+<div class="container">
+    <h1>Авторизация</h1>
+        <form action="/login" method="POST" enctype="multipart/form-data">
+            <input required placeholder="Login" class="form-control" type="text" id="user_login" name="user_login"><br>
+            <input required placeholder="Password" class="form-control" type="password" id="password" name="password"><br>
+            <a href="" class="link-secondary link-underline-light">Забыли пароль?</a>
+            <a href="/login" class="link-secondary link-underline-light">Еще не зарегистрированы?</a><br><br>
+            <button class="btn btn-success" type="submit">Войти</button>
+        </form>
+        <p class="p-3 text-danger">{{ error }}</p>
+    </div>
 {% endblock %}

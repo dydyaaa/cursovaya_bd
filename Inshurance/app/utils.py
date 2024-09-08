@@ -50,7 +50,7 @@ def login_required(f):
             token = request.headers['Authorization']
         
         if not token:
-            return jsonify({"message": "Token is missing!"}), 401
+            return jsonify({"result": "Token is missing!"}), 401
         
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])

@@ -10,7 +10,7 @@ def initialize_database():
                 date_start DATE NOT NULL,
                 date_stop DATE NOT NULL,
                 sum_insurance INTEGER NOT NULL,
-                status VARCHAR(255) NOT NULL
+                status VARCHAR(255) DEFAULT 'На проверке'
     );'''
 
     execute_query(query)
@@ -25,7 +25,8 @@ def initialize_database():
                 passport_number INTEGER NOT NULL,
                 contact_number VARCHAR(20) NOT NULL,
                 address VARCHAR(255) NOT NULL,
-                user_id INTEGER NOT NULL
+                user_id INTEGER NOT NULL,
+                status VARCHAR(255) DEFAULT 'На проверке'
     );'''
 
     execute_query(query)
@@ -49,7 +50,7 @@ def initialize_database():
                 agent_id INTEGER,
                 date DATE NOT NULL,
                 description TEXT NOT NULL,
-                status VARCHAR(255) NOT NULL,
+                status VARCHAR(255) DEFAULT 'На проверке',
                 sum INTEGER NOT NULL
     );'''
 

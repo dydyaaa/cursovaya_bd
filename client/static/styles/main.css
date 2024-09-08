@@ -1,0 +1,9 @@
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.btn-group-row {
+    margin-bottom: 15px;
+}

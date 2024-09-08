@@ -39,9 +39,15 @@ def login():
     return UserManager.login(user_login, password)
 
 
+@user_bp.route('/api/profile', methods=['GET'])
+@login_required
+def profile(current_user):
+    
+    return UserManager.profile(current_user)
+
 @user_bp.route('/api/become_client', methods=['POST'])
 @login_required
-@permission_required('client')
+@permission_required('guest')
 def become_client(current_user):
     
     data = request.json
