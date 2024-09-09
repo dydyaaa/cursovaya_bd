@@ -1,19 +1,30 @@
 import psycopg2
+import jwt
+import os
+import json
 from flask import request, jsonify
 from flask import current_app as app
-import jwt
 from functools import wraps
 
+
+config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'settings.json'))
+
+with open(config_path) as config_file:
+        config = json.load(config_file)
+        host = config.get('host')
+        user = config.get('user')
+        password = config.get('password')
+        database = config.get('database')
 
 def execute_query(query, params=None, return_json=None):
     query_type = query.strip().split()[0].upper()
     
     try:
         connection = psycopg2.connect(
-            host='0.0.0.0',
-            user='admin',
-            password='root',
-            database='postgres'
+            host=host,
+            user=user,
+            password=password,
+            database=database
         )
 
         connection.autocommit = True

@@ -10,7 +10,7 @@ def create_app():
     app = Flask(__name__)
     
     config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'settings.json'))
-
+    
     with open(config_path) as config_file:
         config = json.load(config_file)
         app.config['SECRET_KEY'] = config.get('SECRET_KEY')
