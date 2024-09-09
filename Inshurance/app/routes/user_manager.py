@@ -37,6 +37,20 @@ def login():
     return UserManager.login(user_login, password)
 
 
+@user_bp.route('/api/change_password', methods=['POST'])
+@login_required
+def change_password(current_user):
+    
+    data = request.json
+    user_password_first = data.get('user_password_first')
+    user_password_second = data.get('user_password_second')
+    
+    if user_password_first != user_password_second:
+        return jsonify({"result": "Пароли не свопадают!"})
+    
+    return UserManager.change_password(current_user, user_password_first)
+
+
 @user_bp.route('/api/profile', methods=['GET'])
 @login_required
 def profile(current_user):

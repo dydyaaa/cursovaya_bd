@@ -66,6 +66,26 @@ def login():
     return render_template('login.html')
 
 
+@app.route('/change_password', methods=['GET', 'POST'])
+def change_password():
+    token = request.cookies.get('token') if request.cookies.get('token') else False
+    if request.method == 'POST':
+        response = requests.post(f'{BACKEND_URL}change_password', headers={
+                'Authorization': token
+            }, json={
+            "user_password_first": request.form['password_1'],
+            "user_password_second": request.form['password_2']
+        })
+        data = response.json
+        if response.status_code == 200:
+            resp = make_response(redirect(url_for('home')))
+            resp.set_cookie('token', '', expires=0)
+            return resp
+        else:
+            return render_template('change_password.html', token=token, error=data)
+    return render_template('change_password.html', token=token)
+
+
 @app.route('/logout')
 def logout():
 
