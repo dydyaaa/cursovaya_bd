@@ -19,6 +19,8 @@ def create_app():
     app.register_blueprint(user_bp)
     from .routes.polis_manager import polis_bp
     app.register_blueprint(polis_bp)
+    from .routes.agent_manager import agent_bp
+    app.register_blueprint(agent_bp)
     
     @app.errorhandler(404)
     def not_found(e):

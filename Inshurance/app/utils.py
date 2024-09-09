@@ -3,7 +3,6 @@ from flask import request, jsonify
 from flask import current_app as app
 import jwt
 from functools import wraps
-import logging
 
 
 def execute_query(query, params=None, return_json=None):
@@ -77,9 +76,9 @@ def permission_required(necessary_role):
             current_user = args[0]
 
             role_rank = {
-                'client': 1,
-                'agent': 2,
-                'admin': 3
+                'Client': 1,
+                'Agent': 2,
+                'Admin': 3
             }
             
             current_role = role_rank.get(current_user[0].get('user_role'), 0)

@@ -21,11 +21,18 @@
                         <div>
                             <h4 id="user-login">Логин: {{ data['user_login'] }}</h4>
                             <p id="user-status">Статус: {{ data['user_role'] }}</p>
+                            {% if data['user_role'] != 'guest' %}
+                            {% if client['status'] == 'На проверке' %}
+                            <p id="user-status">Ваш аккаунт находится на проверке</p>
+                            {% elif client['status'] == 'Отказано' %}
+                            <p id="user-status">Ваш аккаунт не прошел проверку</p>
+                            {% endif %}
+                            {% endif %}
                         </div>
                     </div>
 
                     <!-- Условная информация -->
-                    {% if data['user_role'] != 'guest' %}
+                    {% if data['user_role'] == 'Client' %}
                     <div id="additional-info" class="mb-4">
                         <p><strong>Имя:</strong> {{ client['client_name'] }}</p>
                         <p><strong>Дата рождения:</strong> {{ client['birth_day'] }}</p>
@@ -41,7 +48,8 @@
                         <a href="/become_client" class="btn btn-primary w-100">Стать клиентом</a>
                     </div>
                     {% endif %}
-                    {% if data['user_role'] != 'guest' %}
+                    {% if data['user_role'] == 'Client' %}
+                    {% if client['status'] == 'Проверен' %}
                     <div class="btn-group-row d-flex flex-wrap gap-2">
                         <a href="/policies/new" class="btn btn-primary w-100">Оформить полис</a>
                         <a href="/policies" class="btn btn-primary w-100">Мои полисы</a>
@@ -50,6 +58,7 @@
                         <a href="/cases/new" class="btn btn-primary w-100">Оформить происшествие</a>
                         <a href="/cases" class="btn btn-primary w-100">Мои происшествия</a>
                     </div>
+                    {% endif %}
                     {% endif %}
                     <div class="btn-group-row d-flex flex-wrap gap-2">
                         <a href="/profile/change_password" class="btn btn-primary w-100">Сменить пароль</a>

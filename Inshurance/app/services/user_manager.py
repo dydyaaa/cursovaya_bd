@@ -6,7 +6,7 @@ from flask import current_app as app
 from flask import jsonify
 
 
-class UserManager():
+class UserManager:
     
     def register(user_login, password):
         
@@ -94,9 +94,16 @@ class UserManager():
         query = "SELECT * FROM Clients WHERE user_id = %s"
         params = (current_user[0]['user_id'], )
         client = execute_query(query, params, return_json=True)
-        client[0]['birth_day'] = client[0]['birth_day'].strftime('%d.%m.%Y')
+        if client:
+            client[0]['birth_day'] = client[0]['birth_day'].strftime('%d.%m.%Y')
+        else:
+            client = None
         return jsonify({"result": current_user, "client": client}), 200
     
+    
+    def calculator(*args):
+        
+        return jsonify({"result": "Дорого"}), 200
     
     @staticmethod
     def create_token(user_login):

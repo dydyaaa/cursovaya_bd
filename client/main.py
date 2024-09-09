@@ -5,7 +5,7 @@ import json
 
 
 app = Flask(__name__)
-
+BACKEND_URL = 'http://localhost:5001/api/'
 
 @app.route('/')
 def home():
@@ -115,14 +115,65 @@ def profile():
         
         data = response.json()
         if response.status_code == 200:
+            client = data.get('client')[0] if data.get('client') else None
             return render_template('profile.html', 
                                    data=data['result'][0], 
-                                   client=data.get('client')[0], 
+                                   client=client, 
                                    token=token)
         else:
             return render_template('connection_error.html', token=token, data=data['result'])
     except:
         return render_template('connection_error.html', token=token)
+
+
+@app.route('/calculator', methods=['GET', 'POST'])
+def calculator():
+    token = True if request.cookies.get('token') else False
+    
+    response = requests.get('http://localhost:5001/api/calculator')
+    
+    data = response.json
+    
+    return render_template('calculator.html', data=data, token=token)
+    
+
+@app.route('/agent/clients_to_approve', methods=['GET'])
+def clients_to_approve():
+    token = True if request.cookies.get('token') else False
+    
+    response = requests.get(f'{BACKEND_URL}clients_to_approve', headers={
+        "Authorization": request.cookies.get('token')
+    })
+    
+    if response.status_code == 200:
+        data = response.json()
+        
+        return render_template('clients_to_approve.html', token=token, clients=data['result'])
+    else:
+        return redirect('/')
+
+
+@app.route('/approve_client', methods=['POST'])
+def approve_client():
+    client_id = request.form.get('client_id')
+    response = requests.post(f'{BACKEND_URL}/approve_client', headers={
+        "Authorization": request.cookies.get('token')
+    }, json={
+        "client_id": client_id
+    })
+    return redirect('/agent/clients_to_approve')
+
+
+@app.route('/reject_client', methods=['POST'])
+def reject_client():
+    client_id = request.form.get('client_id')
+    response = requests.post(f'{BACKEND_URL}/reject_client', headers={
+        "Authorization": request.cookies.get('token')
+    }, json={
+        "client_id": client_id
+    })
+    return redirect('/agent/clients_to_approve')
+
 
 @app.errorhandler(404)
 def not_found(e):

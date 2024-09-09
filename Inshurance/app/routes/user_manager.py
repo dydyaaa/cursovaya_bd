@@ -32,8 +32,6 @@ def login():
     password = data.get('password')
     
     if not user_login or not password:
-        print(user_login, password)
-        print(data)
         return jsonify({"result": "User login and password are required!"}), 400
     
     return UserManager.login(user_login, password)
@@ -53,3 +51,18 @@ def become_client(current_user):
     data = request.json
     
     return UserManager.become_client(data, current_user)
+
+@user_bp.route('/api/calculator', methods=['GET', 'POST'])
+def calculator():
+    
+    data = request.json
+    
+    type_policy = data.get('type_policy')
+    date_start = data.get('date_start')
+    date_stop = data.get('date_stop')
+    sum_insurance = data.get('sum_insurance')
+    
+    return UserManager.calculator(type_policy,
+                                  date_start,
+                                  date_stop,
+                                  sum_insurance)
