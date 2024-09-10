@@ -7,7 +7,7 @@ from flask import current_app as app
 from functools import wraps
 
 
-config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'settings.json'))
+config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'settings.json'))
 
 with open(config_path) as config_file:
         config = json.load(config_file)

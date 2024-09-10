@@ -11,7 +11,7 @@ BACKEND_URL = 'http://localhost:5001/api/'
 def home():
     token = True if request.cookies.get('token') else False
     try:
-        response = requests.get('http://localhost:5001/api/home')
+        response = requests.get(f'{BACKEND_URL}home')
         data = response.json()
         return render_template('index.html', data=data['result'], token=token)
     except:
@@ -22,7 +22,7 @@ def home():
 def register():
     if request.method == 'POST':
         try:
-            response = requests.post('http://localhost:5001/api/register', json={
+            response = requests.post(f'{BACKEND_URL}register', json={
                 'user_login': request.form['user_login'],
                 'password': request.form['password']
             })
@@ -46,7 +46,7 @@ def register():
 def login():
     if request.method == 'POST':
         try:
-            response = requests.post('http://localhost:5001/api/login', json={
+            response = requests.post(f'{BACKEND_URL}login', json={
                 'user_login': request.form['user_login'],
                 'password': request.form['password']
             })
@@ -101,7 +101,7 @@ def become_client():
     if not token:
         return redirect('register.html')
     if request.method == 'POST':
-        response = requests.post('http://localhost:5001/api/become_client', json={
+        response = requests.post(f'{BACKEND_URL}become_client', json={
                 'client_name': request.form['name'],
                 'birth_day': request.form['birth_day'],
                 'passport_series': request.form['passport_series'],
@@ -129,7 +129,7 @@ def profile():
     if not token:
         return redirect('/register')
     try:
-        response = requests.get('http://localhost:5001/api/profile', headers={
+        response = requests.get(f'{BACKEND_URL}profile', headers={
             'Authorization': token
         })
         
@@ -150,7 +150,7 @@ def profile():
 def calculator():
     token = True if request.cookies.get('token') else False
     
-    response = requests.get('http://localhost:5001/api/calculator')
+    response = requests.get(f'{BACKEND_URL}calculator')
     
     data = response.json
     
