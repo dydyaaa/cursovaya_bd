@@ -51,7 +51,7 @@ def initialize_database():
                 date DATE NOT NULL,
                 description TEXT NOT NULL,
                 status VARCHAR(255) DEFAULT 'На проверке',
-                sum INTEGER NOT NULL
+                sum_payment INTEGER NOT NULL
     );'''
 
     execute_query(query)

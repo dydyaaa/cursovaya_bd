@@ -51,8 +51,8 @@
                     {% if data['user_role'] == 'Client' %}
                     {% if client['status'] == 'Проверен' %}
                     <div class="btn-group-row d-flex flex-wrap gap-2">
-                        <a href="/policies/new" class="btn btn-primary w-100">Оформить полис</a>
-                        <a href="/policies" class="btn btn-primary w-100">Мои полисы</a>
+                        <a href="/make_new_policy" class="btn btn-primary w-100">Оформить полис</a>
+                        <a href="/get_my_polis" class="btn btn-primary w-100">Мои полисы</a>
                     </div>
                     <div class="btn-group-row d-flex flex-wrap gap-2">
                         <a href="/cases/new" class="btn btn-primary w-100">Оформить происшествие</a>
@@ -60,9 +60,24 @@
                     </div>
                     {% endif %}
                     {% endif %}
+                    
+                    {% if data['user_role'] == 'Agent' %}
+                    <div class="btn-group-row d-flex flex-wrap gap-2">
+                        <a href="/" class="btn btn-primary w-100">Активные полисы</a>
+                        <a href="/" class="btn btn-primary w-100">Полисы для подтверждения</a>
+                    </div>
+                    <div class="btn-group-row d-flex flex-wrap gap-2">
+                        <a href="/" class="btn btn-primary w-100">Все проишествия</a>
+                        <a href="/" class="btn btn-primary w-100">Происшествия для подтверждения</a>
+                    </div>
+                    <div class="btn-group-row d-flex flex-wrap gap-2">
+                        <a href="/" class="btn btn-primary w-100">Все клиенты</a>
+                        <a href="/agent/clients_to_approve" class="btn btn-primary w-100">Клиенты для подтверждения</a>
+                    </div>
+                    {% endif %}
                     <div class="btn-group-row d-flex flex-wrap gap-2">
                         <a href="/change_password" class="btn btn-primary w-100">Сменить пароль</a>
-                        <a href="/become_client" class="btn btn-primary w-100">Сменить информацию</a>
+                        <a href="/change_client_data" class="btn btn-primary w-100">Сменить информацию</a>
                     </div>
                 </div>
             </div>

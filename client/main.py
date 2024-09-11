@@ -123,6 +123,34 @@ def become_client():
     return render_template('become_client.html', token=token)
 
 
+@app.route('/change_client_data', methods=['GET', 'POST'])
+def change_client_data():
+    token = request.cookies.get('token') if request.cookies.get('token') else False
+    if not token:
+        return redirect('register.html')
+    if request.method == 'POST':
+        response = requests.post(f'{BACKEND_URL}change_client_data', json={
+                'client_name': request.form['name'],
+                'birth_day': request.form['birth_day'],
+                'passport_series': request.form['passport_series'],
+                'passport_number': request.form['passport_number'],
+                'contact_number': request.form['contact_number'],
+                'address': request.form['adress']
+            },
+            headers={
+                'Authorization': token
+            })
+        
+        data = response.json()
+        
+        if response.status_code == 200:
+            return redirect('/profile')
+        else:
+            error = data['result']
+            return render_template('change_client_data.html', token=token, error=error)
+    return render_template('change_client_data.html', token=token)
+
+
 @app.route('/profile')
 def profile():
     token = request.cookies.get('token') if request.cookies.get('token') else False

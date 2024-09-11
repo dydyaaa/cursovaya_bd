@@ -66,6 +66,15 @@ def become_client(current_user):
     
     return UserManager.become_client(data, current_user)
 
+@user_bp.route('/api/change_client_data', methods=['POST'])
+@login_required
+@permission_required('Client')
+def change_client_data(current_user):
+    
+    data = request.json
+    
+    return UserManager.change_client_data(data, current_user)
+
 @user_bp.route('/api/calculator', methods=['GET', 'POST'])
 def calculator():
     

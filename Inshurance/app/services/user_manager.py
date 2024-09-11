@@ -59,28 +59,29 @@ class UserManager:
         params = (user_id,)
         result = execute_query(query, params)
         
-        if not result:
+        if result:
+            return jsonify({"result": "Вы уже подали заявку!"}), 403
         
-            query = """SELECT * FROM Clients WHERE passport_series = %s AND passport_number = %s"""
-            params = (passport_series, passport_number)
-            result = execute_query(query, params)
-            
-            if result:
-                return jsonify({"result": "Пользователь с таким паспортом уже зарегистрирован!"}), 403
-            
-            query = """SELECT * FROM Clients WHERE contact_number = %s"""
-            params = (contact_number, )
-            result = execute_query(query, params)
-            
-            if result:
-                return jsonify({"result": "Пользователь с таким номером уже зарегистрирован!"}), 403
+        query = """SELECT * FROM Clients WHERE passport_series = %s AND passport_number = %s"""
+        params = (passport_series, passport_number)
+        result = execute_query(query, params)
         
+        if result:
+            return jsonify({"result": "Пользователь с таким паспортом уже зарегистрирован!"}), 403
+        
+        query = """SELECT * FROM Clients WHERE contact_number = %s"""
+        params = (contact_number, )
+        result = execute_query(query, params)
+        
+        if result:
+            return jsonify({"result": "Пользователь с таким номером уже зарегистрирован!"}), 403
+    
         birth_date = datetime.datetime.strptime(birth_day, '%Y-%m-%d')
         today = datetime.datetime.today()
         age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
         if age < 18:
             return jsonify({"result": "Для того, чтобы стать клиентом, Вы дожны быть совершеннолетним!"}), 403
-        
+            
         query = """INSERT INTO Clients (client_name, birth_day, passport_series, passport_number, contact_number, address, user_id)
                     VALUES (%s, %s, %s, %s, %s, %s, %s)"""
         params = (client_name, birth_day, passport_series, passport_number, contact_number, address, user_id)
@@ -94,6 +95,53 @@ class UserManager:
         
         return jsonify({"result": "ok"}), 200
 
+
+    def change_client_data(data, current_user):
+        print('DEBUUUUUG')
+        birth_day = data.get('birth_day')
+        client_name = data.get('client_name')
+        passport_series = data.get('passport_series')
+        passport_number = data.get('passport_number')
+        contact_number = data.get('contact_number')
+        address = data.get('address')
+        user_id = current_user[0].get('user_id')
+        
+        query = """SELECT * FROM Clients WHERE passport_series = %s AND passport_number = %s AND user_id != %s"""
+        params = (passport_series, passport_number, user_id)
+        result = execute_query(query, params)
+        
+        if result:
+            return jsonify({"result": "Пользователь с таким паспортом уже зарегистрирован!"}), 403
+        
+        query = """SELECT * FROM Clients WHERE contact_number = %s AND user_id != %s"""
+        params = (contact_number, user_id)
+        result = execute_query(query, params)
+        
+        if result:
+            return jsonify({"result": "Пользователь с таким номером уже зарегистрирован!"}), 403
+    
+        birth_date = datetime.datetime.strptime(birth_day, '%Y-%m-%d')
+        today = datetime.datetime.today()
+        age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+        if age < 18:
+            return jsonify({"result": "Для того, чтобы стать клиентом, Вы дожны быть совершеннолетним!"}), 403
+            
+        
+        query = """UPDATE Clients 
+           SET client_name = %s, 
+               birth_day = %s, 
+               passport_series = %s, 
+               passport_number = %s, 
+               contact_number = %s, 
+               address = %s, 
+               status = %s
+           WHERE user_id = %s""" 
+
+        params = (client_name, birth_day, passport_series, passport_number, contact_number, address, 'На проверке', user_id)
+        execute_query(query, params)
+            
+        return jsonify({"result": "ok"}), 200
+    
     
     def change_password(current_user, password):
         
