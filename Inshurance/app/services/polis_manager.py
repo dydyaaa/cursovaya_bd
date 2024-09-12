@@ -42,23 +42,36 @@ class PolisManager:
         else:
             return jsonify({"result": "У вас нет активных полисов!"}), 200
     
+    
     def make_new_policy(policy_type, date_start, date_stop, sum_insurance, current_user):
         
         date_start = datetime.datetime.strptime(date_start, '%Y-%m-%d')
         date_stop = datetime.datetime.strptime(date_stop, '%Y-%m-%d')
         
-        if sum_insurance < 10000:
+        if int(sum_insurance) < 10000:
             return jsonify({"result": "Сумма выплат не может быть меньше 10.000р"}), 403
         
-        if sum_insurance > 1000000:
+        if int(sum_insurance) > 1000000:
             return jsonify({"result": "Сумма выплат не может быть больше 1.000.000р"}), 403
+        
+        if date_start < datetime.datetime.now():
+            return jsonify({"result": "Дата начала действия полиса не может быть раньше сегодняшней даты!"}), 403
         
         if date_stop < date_start:
             return jsonify({"result": "Дата начала действия полиса не может быть позже даты окончания!"}), 403
         
+        query = """SELECT c.client_id FROM Clients c
+                    JOIN Users u 
+                    ON c.user_id = u.user_id
+                    WHERE u.user_id = %s"""
+        params = (current_user[0].get('user_id'),)
+        print(params)
+        client_id = execute_query(query, params)[0][0]
+        
         query = """INSERT INTO Policies (policy_type, client_id, date_start, date_stop, sum_insurance)
                     VALUES (%s, %s, %s, %s, %s)"""
-        params = (policy_type, current_user[0].get('user_id'), date_start, date_stop, sum_insurance)
+        params = (policy_type, client_id, date_start, date_stop, sum_insurance)
+        print(params)
         execute_query(query, params)
         
         return jsonify({"result": current_user[0].get('user_id')}), 200
@@ -82,5 +95,9 @@ class PolisManager:
         params = (policy_id, date, description, sum_payment)
         
         execute_query(query, params)
+        
+        query = """UPDATE Polisies SET status = 'Рассматривается случай' WHERE policy_id = %s"""
+        params= (policy_id, )
+        execute_query(query, params) 
         
         return jsonify({"result": "vrode ok"})

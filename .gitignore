@@ -5,3 +5,5 @@ Inshurance/requirements.txt
 client/requirements.txt
 .DS_Store
 /Inshurance/settings.json
+/Inshurance/jupyter.ipynb
+/Inshurance/.ipynb_checkpoints/

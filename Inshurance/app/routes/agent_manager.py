@@ -10,14 +10,14 @@ agent_bp = Blueprint('agent_pb', __name__)
 @login_required
 @permission_required('Agent')
 def policy_to_approve(current_user):
-    return jsonify({"result": "policy_to_approve"}), 200
+    return AgentManager.policy_to_approve()
 
 
 @agent_bp.route('/api/all_policy', methods=['GET'])
 @login_required
 @permission_required('Agent')
 def all_policy(current_agent):
-    return jsonify({"result": "all_policy"}), 200
+    return AgentManager.all_policy()
 
 
 @agent_bp.route('/api/clients_to_approve', methods=['GET'])

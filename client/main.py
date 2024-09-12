@@ -223,6 +223,46 @@ def reject_client():
     return redirect('/agent/clients_to_approve')
 
 
+@app.route('/get_my_polis', methods=['GET'])
+def get_my_polis():
+    token = True if request.cookies.get('token') else False
+    
+    response = requests.get(f'{BACKEND_URL}get_my_polis', headers={
+        "Authorization": request.cookies.get('token')
+    })
+    
+    data = response.json()
+    
+    if response.status_code == 200:
+        return render_template('get_my_polis.html', policies=data['result'], token=token)
+    else:
+        return render_template('connection_error.html', token=token)
+
+
+@app.route('/make_new_policy', methods=['GET', 'POST'])
+def make_new_policy():
+    token = True if request.cookies.get('token') else False
+    
+    if request.method == 'POST':
+        response = requests.post(f'{BACKEND_URL}make_new_polis', headers={
+            "Authorization": request.cookies.get('token')
+        }, json={
+            "policy_type": request.form['policy_type'],
+            "date_start": request.form['date_start'],
+            "date_stop": request.form['date_stop'],
+            "sum_insurance": request.form['sum_insurance']
+        })
+        
+        data = response.json()
+        
+        if response.status_code == 200:
+            return redirect('/profile')
+        else:
+            error = data['result']
+            return render_template('make_new_policy.html', token=token, error=error)
+        
+    return render_template('make_new_policy.html', token=token)
+
 @app.errorhandler(404)
 def not_found(e):
     token = True if request.cookies.get('token') else False

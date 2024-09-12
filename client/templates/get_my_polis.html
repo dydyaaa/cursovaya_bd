@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Мои полисы
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    {% if policies == 'У вас нет активных полисов!' %}
+    <h1>{{ policies }}</h1>
+    {% else %}
+    <h2>Список полисов</h2>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Номер полиса</th>
+                <th>Тип полиса</th>
+                <th>Дата начала действия</th>
+                <th>Дата окончания действия</th>
+                <th>Статус</th>
+                <th>Сумма выплаты</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for polis in policies %}
+            <tr>
+                <td>{{ polis.policy_id }}</td>
+                <td>{{ polis.policy_type }}</td>
+                <td>{{ polis.date_start }}
+                <td>{{ polis.date_stop }}</td>
+                <td>{{ polis.status }}</td>
+                <td>{{ polis.sum_insurance }}</td>                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

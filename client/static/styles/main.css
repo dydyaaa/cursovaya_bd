@@ -7,3 +7,10 @@
 .btn-group-row {
     margin-bottom: 15px;
 }
+
+@media (orientation: portrait) {
+    .carousel-item img {
+        width: 270px;
+        height: 230px;
+    }
+}

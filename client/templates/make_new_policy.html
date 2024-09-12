@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Оформить полис
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Стать клиентом</h1>
+        <form action="/make_new_policy" method="POST" enctype="multipart/form-data">
+            <select required class="form-control" id="policy_type" name="policy_type">
+                <option value="" disabled selected>Выберите тип полиса</option>
+                <option value="ОСАГО">ОСАГО</option>
+                <option value="КАСКО">КАСКО</option>
+                <option value="СТРАХОВАНИЕ ЖИЛЬЯ">СТРАХОВАНИЕ ЖИЛЬЯ</option>
+                <option value="СТРАХОВАНИЕ ЖИЗНИ">СТРАХОВАНИЕ ЖИЗНИ</option>
+            </select><br>
+            <input required placeholder="Дата начала действия полиса" class="form-control" type="date" id="date_start" name="date_start"><br>
+            <input required placeholder="Дата окончания действия полиса" class="form-control" type="date" id="date_stop" name="date_stop" maxlength="4"><br>
+            <input required placeholder="Сумма выплаты" class="form-control" type="number" id="sum_insurance" name="sum_insurance" maxlength="6"><br>
+            <button class="btn btn-success" type="submit">Отправить заявку</button>
+        </form>
+        <p class="p-3 text-danger">{{ error }}</p>
+    </div>
+{% endblock %}

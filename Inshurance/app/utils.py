@@ -95,6 +95,12 @@ def permission_required(necessary_role):
             current_role = role_rank.get(current_user[0].get('user_role'), 0)
             necessary_rank = role_rank.get(necessary_role, 0)
             if current_role >= necessary_rank:
+                if necessary_rank == 'Client':
+                    query = "SELECT status FROM Clients WHERE user_id = %s"
+                    params = (current_user[0].get('user_id'), )
+                    result = execute_query(query, params)
+                    if result[0][0] == 'На проверке':
+                        return jsonify({"message": "Forbidden"}), 403
                 return f(*args, **kwargs)
             else:
                 return jsonify({"message": "Forbidden"}), 403
