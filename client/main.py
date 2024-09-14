@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response
 import requests
-import os
-import json
 
 
 app = Flask(__name__)
@@ -262,6 +260,65 @@ def make_new_policy():
             return render_template('make_new_policy.html', token=token, error=error)
         
     return render_template('make_new_policy.html', token=token)
+
+
+@app.route('/make_new_inshurance', methods=['GET', 'POST'])
+def make_new_inshurance():
+    token = True if request.cookies.get('token') else False
+    
+    if request.method == 'POST':
+        
+        response = requests.post(f'{BACKEND_URL}make_new_inshurance', headers={
+            "Authorization": request.cookies.get('token')
+        }, json={
+            "policy_id": request.form['policy_id'],
+            "date": request.form['date'],
+            "description": request.form['description'],
+            "sum_payment": request.form['sum_payment']
+        })
+        
+        dataa = response.json
+        
+        if response.status_code == 200:
+            return redirect('/profile')
+        
+        else:
+            response = requests.get(f'{BACKEND_URL}get_my_polis', headers={
+                "Authorization": request.cookies.get('token')
+            })
+        
+            data = response.json()
+            
+            return render_template('make_new_inshurance.html', token=token, policies=data['result'], error=dataa) 
+        
+        
+    
+    else:
+        
+        response = requests.get(f'{BACKEND_URL}get_my_polis', headers={
+            "Authorization": request.cookies.get('token')
+        })
+        
+        data = response.json()
+        
+        return render_template('make_new_inshurance.html', token=token, policies=data['result'])
+
+@app.route('/get_my_inshurance', methods=['GET'])
+def get_my_inshurance():
+    token = True if request.cookies.get('token') else False
+    
+    response = requests.get(f'{BACKEND_URL}get_my_insurance', headers={
+        "Authorization": request.cookies.get('token')
+    })
+    
+    data = response.json()
+    
+    if response.status_code == 200:
+        return render_template('get_my_inshurance.html', token=token, inshurance=data["result"])
+    else:
+        error = data['result']
+        return render_template('connection_error.html', token=token, error=error)
+    
 
 @app.errorhandler(404)
 def not_found(e):

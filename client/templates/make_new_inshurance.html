@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Оформить проишествие
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Стать клиентом</h1>
+        <form action="/make_new_inshurance" method="POST" enctype="multipart/form-data">
+            <select required class="form-control" id="policy_id" name="policy_id">
+                <option value="" disabled selected>Выберите полис</option>
+                {% for polis in policies %}
+                <option value="{{ polis.policy_id }}">{{ polis.policy_type }}</option>
+                {% endfor %}
+            </select><br>
+            <input required placeholder="Дата проишествия" class="form-control" type="date" id="date" name="date"><br>
+            <input required placeholder="Опишите проишествие" class="form-control" type="text" id="description" name="description"><br>
+            <input required placeholder="Сумма выплаты" class="form-control" type="number" id="sum_payment" name="sum_payment"><br>
+            <button class="btn btn-success" type="submit">Отправить заявку</button>
+        </form>
+        <p class="p-3 text-danger">{{ error }}</p>
+    </div>
+{% endblock %}

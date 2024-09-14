@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Мои проишествия
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    {% if inshurance == 'У вас нет активных заявок!' %}
+    <h1>{{ inshurance }}</h1>
+    {% else %}
+    <h2>Список заявок</h2>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Дата проишествия</th>
+                <th>Описание</th>
+                <th>Статус</th>
+                <th>Сумма выплаты</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for insh in inshurance %}
+            <tr>
+                <td>{{ insh.date }}</td>
+                <td>{{ insh.description }}</td>
+                <td>{{ insh.status }}
+                <td>{{ insh.sum_payment }}</td>          
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

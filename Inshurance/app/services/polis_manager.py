@@ -27,7 +27,7 @@ class PolisManager:
     
     def get_my_insurance(current_user):
         
-        query = """SELECT c.date, c.description, c.status, c.sum
+        query = """SELECT c.date, c.description, c.status, c.sum_payment
                     FROM Cases c
                     JOIN Policies p
                     ON c.policy_id = p.policy_id
@@ -40,7 +40,7 @@ class PolisManager:
             result[0]['date'] = result[0]['date'].strftime('%d.%m.%Y')
             return jsonify({"result": result}), 200
         else:
-            return jsonify({"result": "У вас нет активных полисов!"}), 200
+            return jsonify({"result": "У вас нет активных заявок!"}), 200
     
     
     def make_new_policy(policy_type, date_start, date_stop, sum_insurance, current_user):
@@ -83,7 +83,10 @@ class PolisManager:
         result = execute_query(query, params, return_json=True)
     
         if result[0]['status'] != 'Активный':
-            return jsonify({"result": 'Ваш полис не активен!'})
+            return jsonify({"result": 'Ваш полис не активен!'}), 403
+        
+        if int(result[0]['sum_insurance']) < int(sum_payment):
+            return jsonify({"result": 'Сумма выплаты не может привышать максимальную страховую выплату!'}), 403
         
         query = """INSERT INTO Cases (
             policy_id, 
