@@ -43,3 +43,10 @@ def reject_client(current_user):
     data = request.json
     client_id = data.get('client_id')
     return AgentManager.reject_client(client_id)
+
+@agent_bp.route('/api/approve_polis', methods=['POST'])
+@login_required
+@permission_required('Agnet')
+def approve_polis(current_user):
+    data = request.json
+    policy_id = data.get('policy_id')

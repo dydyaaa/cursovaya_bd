@@ -56,3 +56,10 @@ class AgentManager:
         execute_query(query, params)
         return jsonify({"result": "successful"}), 200
     
+    
+    def approve_polid(policy_id):
+        query = "UPDATE Policies SET status = %s WHERE policy_id = %s"
+        params = ('Активный', policy_id)
+        execute_query(query, params)
+        return jsonify("result", "successful"), 200
+    

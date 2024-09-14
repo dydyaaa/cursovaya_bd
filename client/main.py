@@ -290,8 +290,6 @@ def make_new_inshurance():
             data = response.json()
             
             return render_template('make_new_inshurance.html', token=token, policies=data['result'], error=dataa) 
-        
-        
     
     else:
         
@@ -319,6 +317,43 @@ def get_my_inshurance():
         error = data['result']
         return render_template('connection_error.html', token=token, error=error)
     
+
+@app.route('/all_policy', methods=['GET'])
+def all_policy():
+    token = True if request.cookies.get('token') else False
+    
+    response = requests.get(f'{BACKEND_URL}all_policy', headers={
+        "Authorization": request.cookies.get('token')
+    })
+    
+    data = response.json()
+    
+    return data
+
+
+@app.route('/policy_to_approve', methods=['GET'])
+def policy_to_approve():
+    token = True if request.cookies.get('token') else False
+    
+    response = requests.get(f'{BACKEND_URL}policy_to_approve', headers={
+        "Authorization": request.cookies.get('token')
+    })
+    
+    data = response.json()
+    
+    return data
+
+
+@app.route('/approve_polis', methods=['POST'])
+def approve_polis():
+    policy_id = request.form.get('policy_id')
+    response = requests.post(f'{BACKEND_URL}/approve_polis', headers={
+        "Authorization": request.cookies.get('token')
+    }, json={
+        "policy_id": policy_id
+    })
+    return redirect('/policy_to_approve')
+
 
 @app.errorhandler(404)
 def not_found(e):
