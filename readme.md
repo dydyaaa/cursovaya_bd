@@ -123,6 +123,106 @@
 
 --- 
 
+### Настройка сервера
+
+#### Установка git
+
+```bash
+sudo apt-get update
+sudo apt-get install git
+```
+
+#### Установка nginx
+
+```bash
+sudo apt update
+sudo apt install nginx
+```
+
+#### Установка docker
+
+```bash
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+#### Клонирование проекта
+
+```bash
+git clone git clone --branch prod --single-branch https://github.com/dydyaaa/cursovaya_bd.git
+```
+
+#### Первый запуск контейнеров
+
+```bash
+docker compose up --build
+```
+
+#### Последующая работа с контейнерами
+
+```bash
+docker compose stop
+docker compose start
+```
+
+#### Настройка nginx
+
+```bash
+sudo nano /etc/nginx/sites-available/sogazik.ru
+```
+
+Добавить конфигурацию в файл
+
+```nginx
+server {
+    listen 80;
+    server_name sogazik.ru www.sogazik.ru;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:5001;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /static/ {
+        alias /path/to/static/files; 
+    }
+}
+```
+
+#### Активация nginx
+
+```bash
+sudo ln -s /etc/nginx/sites-available/sogazik.ru /etc/nginx/sites-enabled/
+```
+
+#### Перезапуск nginx
+
+```bash
+sudo systemctl restart nginx
+```
+
 ### Дополнительно
 
 - Для тестирования API использовался Postman.
