@@ -206,9 +206,26 @@ server {
     }
 
     location /static/ {
-        alias /path/to/static/files; 
+        proxy_pass http://127.0.0.1:3000/static/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
+```
+
+#### Установка Certbot
+
+```bash
+sudo apt update
+sudo apt install certbot python3-certbot-nginx
+```
+
+#### Запуск Certbot
+
+```bash
+sudo certbot --nginx -d sogazik.ru -d www.sogazik.ru --email your-email@example.com
 ```
 
 #### Активация nginx
@@ -221,6 +238,12 @@ sudo ln -s /etc/nginx/sites-available/sogazik.ru /etc/nginx/sites-enabled/
 
 ```bash
 sudo systemctl restart nginx
+```
+
+#### Проверка синтаксиса 
+
+```bash
+sudo nginx -t
 ```
 
 ### Дополнительно
