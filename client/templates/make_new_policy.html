@@ -12,11 +12,33 @@
                 <option value="" disabled selected>Выберите тип полиса</option>
                 <option value="ОСАГО">ОСАГО</option>
                 <option value="КАСКО">КАСКО</option>
-                <option value="СТРАХОВАНИЕ ЖИЛЬЯ">СТРАХОВАНИЕ ЖИЛЬЯ</option>
-                <option value="СТРАХОВАНИЕ ЖИЗНИ">СТРАХОВАНИЕ ЖИЗНИ</option>
             </select><br>
             <input required placeholder="Дата начала действия полиса" class="form-control" type="date" id="date_start" name="date_start"><br>
             <input required placeholder="Дата окончания действия полиса" class="form-control" type="date" id="date_stop" name="date_stop" maxlength="4"><br>
+            <select required class="form-control" id="car_brand" name="car_brand">
+                <option value="" disabled selected>Марку авто</option>
+                <option value="BMW">BMW</option>
+                <option value="MERCEDES">MERCEDES</option>
+                <option value="AUDI">AUDI</option>
+                <option value="TOYOTA">TOYOTA</option>
+                <option value="HONDA">HONDA</option>
+                <option value="FORD">FORD</option>
+                <option value="CHEVROLET">CHEVROLET</option>
+                <option value="TESLA">TESLA</option>
+                <option value="VOLKSWAGEN">VOLKSWAGEN</option>
+                <option value="PORSCHE">PORSCHE</option>
+                <option value="LEXUS">LEXUS</option>
+                <option value="NISSAN">NISSAN</option>
+                <option value="HYUNDAI">HYUNDAI</option>
+                <option value="KIA">KIA</option>
+                <option value="VOLVO">VOLVO</option>
+                <option value="JAGUAR">JAGUAR</option>
+                <option value="LAND ROVER">LAND ROVER</option>
+                <option value="MAZDA">MAZDA</option>
+                <option value="SUBARU">SUBARU</option>
+                <option value="FERRARI">FERRARI</option>
+            </select><br>
+            <input required placeholder="Год выпуска авто" class="form-control" type="number" id="year_of_manufacture" name="year_of_manufacture" maxlength="6"><br>
             <input required placeholder="Сумма выплаты" class="form-control" type="number" id="sum_insurance" name="sum_insurance" maxlength="6"><br>
             <button class="btn btn-success" type="submit">Отправить заявку</button>
         </form>

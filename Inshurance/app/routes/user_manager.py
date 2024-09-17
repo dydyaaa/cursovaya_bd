@@ -80,12 +80,16 @@ def calculator():
     
     data = request.json
     
-    type_policy = data.get('type_policy')
+    policy_type = data.get('policy_type')
     date_start = data.get('date_start')
     date_stop = data.get('date_stop')
+    car_brand = data.get('car_brand')
+    year_of_manufacture = data.get('year_of_manufacture')
     sum_insurance = data.get('sum_insurance')
     
-    return UserManager.calculator(type_policy,
+    return UserManager.calculator(policy_type,
                                   date_start,
                                   date_stop,
+                                  car_brand,
+                                  year_of_manufacture,
                                   sum_insurance)

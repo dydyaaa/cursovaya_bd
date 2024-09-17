@@ -97,7 +97,6 @@ class UserManager:
 
 
     def change_client_data(data, current_user):
-        print('DEBUUUUUG')
         birth_day = data.get('birth_day')
         client_name = data.get('client_name')
         passport_series = data.get('passport_series')
@@ -159,15 +158,99 @@ class UserManager:
         params = (current_user[0]['user_id'], )
         client = execute_query(query, params, return_json=True)
         if client:
-            client[0]['birth_day'] = client[0]['birth_day'].strftime('%d.%m.%Y')
+            client[0]['birth_day'] = client[0]['birth_day'].strftime('%Y.%m.%d')
         else:
             client = None
         return jsonify({"result": current_user, "client": client}), 200
     
     
-    def calculator(*args):
+    def calculator(policy_type, 
+                   date_start,
+                   date_stop,
+                   car_brand,
+                   year_of_manufacture,
+                   sum_insurance):
         
-        return jsonify({"result": "Дорого"}), 200
+        result = UserManager.calculation(policy_type, 
+                                         date_start,
+                                         date_stop,
+                                         car_brand,
+                                         year_of_manufacture,
+                                         sum_insurance)
+        
+        return jsonify({"result": result})
+    
+    @staticmethod
+    def calculation(policy_type, date_start, date_stop, car_brand, year_of_manufacture, sum_insurance):
+        
+        policy_coefficients = {
+            'ОСАГО': 1.2,
+            'КАСКО': 1.5
+        }
+        
+        brand_coefficients = {
+        'BMW': 1.1,
+        'MERCEDES': 1.2,
+        'AUDI': 1.15,
+        'TOYOTA': 1.0,
+        'HONDA': 1.05,
+        'FORD': 1.0,
+        'CHEVROLET': 1.0,
+        'TESLA': 1.3,
+        'VOLKSWAGEN': 1.1,
+        'PORSCHE': 1.4,
+        'LEXUS': 1.25,
+        'NISSAN': 1.05,
+        'HYUNDAI': 1.0,
+        'KIA': 1.0,
+        'VOLVO': 1.2,
+        'JAGUAR': 1.35,
+        'LAND ROVER': 1.3,
+        'MAZDA': 1.05,
+        'SUBARU': 1.1,
+        'FERRARI': 1.5
+    }
+
+        
+        if policy_type not in policy_coefficients:
+            jsonify({"result": f"Неподдерживаемый тип полиса"}), 200 
+    
+        if car_brand not in brand_coefficients:
+            jsonify({"result": f"Неподдерживаемая марка автомобиля"}), 200
+            
+        try:
+            year_of_manufacture = int(year_of_manufacture)
+        except ValueError:
+            return jsonify({"result": f"Некорректный год выпуска автомобиля"}), 200
+        
+        base_cost = sum_insurance * 0.03
+        
+        policy_coefficient = policy_coefficients[policy_type]
+        brand_coefficient = brand_coefficients[car_brand]
+        
+        current_year = datetime.datetime.now().year
+        age_of_car = current_year - year_of_manufacture
+        
+        age_coefficient = 1.5 if age_of_car > 5 else 1.2 if age_of_car > 3 else 1.0
+        
+        total_cost = base_cost * policy_coefficient * brand_coefficient * age_coefficient
+        
+        if isinstance(date_start, str):
+            date_start = datetime.datetime.strptime(date_start, '%Y-%m-%d')
+        if isinstance(date_stop, str):
+            date_stop = datetime.datetime.strptime(date_stop, '%Y-%m-%d')
+        period_in_years = (date_stop - date_start).days / 365.0
+        
+        if period_in_years < 1:
+            total_cost *= 1.2  
+        elif period_in_years > 3:
+            total_cost *= 0.8  
+    
+        total_cost *= period_in_years
+        
+        total_cost = round(total_cost, 0)
+        
+        return total_cost
     
     @staticmethod
     def create_token(user_login):

@@ -18,7 +18,7 @@
                 <th>Дата начала действия</th>
                 <th>Дата окончания действия</th>
                 <th>Статус</th>
-                <th>Сумма выплаты</th>
+                <th>Стоимость полиса</th>
             </tr>
         </thead>
         <tbody>
@@ -29,7 +29,7 @@
                 <td>{{ polis.date_start }}
                 <td>{{ polis.date_stop }}</td>
                 <td>{{ polis.status }}</td>
-                <td>{{ polis.sum_insurance }}</td>                
+                <td>{{ polis.policy_cost }}</td>                
             </tr>
             {% endfor %}
         </tbody>

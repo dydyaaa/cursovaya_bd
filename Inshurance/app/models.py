@@ -9,6 +9,9 @@ def initialize_database():
                 client_id INTEGER,
                 date_start DATE NOT NULL,
                 date_stop DATE NOT NULL,
+                car_brand VARCHAR(255) NOT NULL,
+                year_of_manufacture INTEGER NOT NULL,
+                policy_cost INTEGER NOT NULL,
                 sum_insurance INTEGER NOT NULL,
                 status VARCHAR(255) DEFAULT 'На проверке'
     );'''
@@ -51,7 +54,7 @@ def initialize_database():
                 date DATE NOT NULL,
                 description TEXT NOT NULL,
                 status VARCHAR(255) DEFAULT 'На проверке',
-                sum_payment INTEGER NOT NULL
+                sum_payment INTEGER DEFAULT 0
     );'''
 
     execute_query(query)

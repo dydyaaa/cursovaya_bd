@@ -42,6 +42,7 @@ def register():
         
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    token = True if request.cookies.get('token') else False
     if request.method == 'POST':
         try:
             response = requests.post(f'{BACKEND_URL}login', json={
@@ -248,6 +249,8 @@ def make_new_policy():
             "policy_type": request.form['policy_type'],
             "date_start": request.form['date_start'],
             "date_stop": request.form['date_stop'],
+            "car_brand": request.form['car_brand'],
+            'year_of_manufacture': request.form['year_of_manufacture'],
             "sum_insurance": request.form['sum_insurance']
         })
         
@@ -273,11 +276,10 @@ def make_new_inshurance():
         }, json={
             "policy_id": request.form['policy_id'],
             "date": request.form['date'],
-            "description": request.form['description'],
-            "sum_payment": request.form['sum_payment']
+            "description": request.form['description']
         })
         
-        dataa = response.json
+        dataa = response.json()
         
         if response.status_code == 200:
             return redirect('/profile')
@@ -289,7 +291,7 @@ def make_new_inshurance():
         
             data = response.json()
             
-            return render_template('make_new_inshurance.html', token=token, policies=data['result'], error=dataa) 
+            return render_template('make_new_inshurance.html', token=token, policies=data['result'], error=dataa['result']) 
     
     else:
         
@@ -318,7 +320,7 @@ def get_my_inshurance():
         return render_template('connection_error.html', token=token, error=error)
     
 
-@app.route('/all_policy', methods=['GET'])
+@app.route('/agent/all_policy', methods=['GET'])
 def all_policy():
     token = True if request.cookies.get('token') else False
     
@@ -331,7 +333,7 @@ def all_policy():
     return data
 
 
-@app.route('/policy_to_approve', methods=['GET'])
+@app.route('/agent/policy_to_approve', methods=['GET'])
 def policy_to_approve():
     token = True if request.cookies.get('token') else False
     

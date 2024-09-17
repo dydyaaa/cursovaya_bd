@@ -1,6 +1,4 @@
-from ..services.user_manager import UserManager
 from app.utils import execute_query
-from werkzeug.security import check_password_hash
 from flask import current_app as app
 from flask import jsonify
 
