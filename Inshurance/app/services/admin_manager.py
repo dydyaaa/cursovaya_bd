@@ -8,8 +8,23 @@ class AdminManager:
 
     def execute_sql(sql_query):
         
+        if 'DROP' or 'DELETE' in sql_query:
+            return jsonify({"result": "К сожалению или к счастью, такого нельзя даже админам!"}), 400
+        
         try:
             result = execute_query(sql_query)
             return jsonify({"result": result}), 200
         except Exception as error:
-            return jsonify({"result": error}), 200
+            return jsonify({"result": error}), 400
+        
+        
+    def all_tables():
+        query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"
+        result = execute_query(query, return_json=True)
+        return jsonify({"result": result})
+    
+    
+    def view_table(table_name):
+        query = f"SELECT * FROM {table_name}"
+        result = execute_query(query, return_json=True)
+        return jsonify({"result": result})

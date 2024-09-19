@@ -58,10 +58,10 @@ class PolisManager:
         date_stop = datetime.datetime.strptime(date_stop, '%Y-%m-%d')
         
         if sum_insurance < 10000:
-            return jsonify({"result": "Сумма выплат не может быть меньше 10.000р"}), 403
+            return jsonify({"result": "Сумма выплат не может быть меньше 10.000р"}), 400
         
         if sum_insurance > 5000000:
-            return jsonify({"result": "Сумма выплат не может быть больше 5.000.000р"}), 403
+            return jsonify({"result": "Сумма выплат не может быть больше 5.000.000р"}), 400
         
         if date_start < datetime.datetime.now():
             return jsonify({"result": "Дата начала действия полиса не может быть раньше сегодняшней даты!"}), 403
@@ -114,7 +114,7 @@ class PolisManager:
         result = execute_query(query, params, return_json=True)
     
         if result[0]['status'] != 'Активный':
-            return jsonify({"result": 'Ваш полис не активен!'}), 403
+            return jsonify({"result": 'Ваш полис не активен!'}), 400
         
         query = """INSERT INTO Cases (
             policy_id, 
