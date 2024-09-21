@@ -31,6 +31,7 @@ def make_new_policy(current_user):
     date_stop = data.get('date_stop')
     car_brand = data.get('car_brand')
     year_of_manufacture = data.get('year_of_manufacture')
+    car_number = data.get('car_number')
     sum_insurance = data.get('sum_insurance')
     
     return PolisManager.make_new_policy(policy_type, 
@@ -38,6 +39,7 @@ def make_new_policy(current_user):
                                         date_stop, 
                                         car_brand, 
                                         year_of_manufacture, 
+                                        car_number,
                                         sum_insurance, 
                                         current_user)
 

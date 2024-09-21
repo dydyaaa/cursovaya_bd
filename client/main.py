@@ -184,7 +184,7 @@ def calculator():
     return render_template('calculator.html', data=data, token=token)
     
 
-@app.route('/agent/clients_to_approve', methods=['GET'])
+@app.route('/clients_to_approve', methods=['GET'])
 def clients_to_approve():
     token = True if request.cookies.get('token') else False
     
@@ -208,7 +208,7 @@ def approve_client():
     }, json={
         "client_id": client_id
     })
-    return redirect('/agent/clients_to_approve')
+    return redirect('/clients_to_approve')
 
 
 @app.route('/reject_client', methods=['POST'])
@@ -219,7 +219,7 @@ def reject_client():
     }, json={
         "client_id": client_id
     })
-    return redirect('/agent/clients_to_approve')
+    return redirect('/clients_to_approve')
 
 
 @app.route('/get_my_polis', methods=['GET'])
@@ -320,7 +320,7 @@ def get_my_inshurance():
         return render_template('connection_error.html', token=token, error=error)
     
 
-@app.route('/agent/all_policy', methods=['GET'])
+@app.route('/all_policy', methods=['GET'])
 def all_policy():
     token = True if request.cookies.get('token') else False
     
@@ -333,7 +333,7 @@ def all_policy():
     return data
 
 
-@app.route('/agent/policy_to_approve', methods=['GET'])
+@app.route('/policy_to_approve', methods=['GET'])
 def policy_to_approve():
     token = True if request.cookies.get('token') else False
     
@@ -343,7 +343,7 @@ def policy_to_approve():
     
     data = response.json()
     
-    return data
+    return render_template('policy_to_approve.html', data=data)
 
 
 @app.route('/approve_polis', methods=['POST'])

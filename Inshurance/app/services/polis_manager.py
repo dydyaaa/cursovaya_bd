@@ -49,6 +49,7 @@ class PolisManager:
                         date_stop, 
                         car_brand, 
                         year_of_manufacture, 
+                        car_number,
                         sum_insurance, 
                         current_user):
         
@@ -91,16 +92,18 @@ class PolisManager:
                                 date_stop, 
                                 car_brand,
                                 year_of_manufacture,
+                                car_number,
                                 policy_cost,
                                 sum_insurance
                                 )
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
         params = (policy_type, 
                   client_id, 
                   date_start, 
                   date_stop, 
                   car_brand, 
                   year_of_manufacture, 
+                  car_number,
                   policy_cost, 
                   sum_insurance)
         execute_query(query, params)

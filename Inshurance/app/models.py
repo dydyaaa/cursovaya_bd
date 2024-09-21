@@ -11,6 +11,7 @@ def initialize_database():
                 date_stop               DATE            NOT NULL,
                 car_brand               VARCHAR(255)    NOT NULL,
                 year_of_manufacture     INTEGER         NOT NULL,
+                car_number              VARCHAR(255)    NOT NULL,
                 policy_cost             INTEGER         NOT NULL,
                 sum_insurance           INTEGER         NOT NULL,
                 status                  VARCHAR(255)    DEFAULT 'На проверке'

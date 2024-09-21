@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-start align-items-center mb-4">
                         <!-- Аватар пользователя -->
-                        <img src="../static/img/sogaz_sign.png" alt="User Avatar" class="avatar me-4">
+                        <img src="/static/img/test.webp" alt="User Avatar" class="avatar me-4">
                         
                         <!-- Основная информация -->
                         <div>
@@ -63,8 +63,8 @@
                     
                     {% if data['user_role'] == 'Agent' %}
                     <div class="btn-group-row d-flex flex-wrap gap-2">
-                        <a href="/agent/all_policy" class="btn btn-primary w-100">Активные полисы</a>
-                        <a href="/agent/policy_to_approve" class="btn btn-primary w-100">Полисы для подтверждения</a>
+                        <a href="/all_policy" class="btn btn-primary w-100">Активные полисы</a>
+                        <a href="/policy_to_approve" class="btn btn-primary w-100">Полисы для подтверждения</a>
                     </div>
                     <div class="btn-group-row d-flex flex-wrap gap-2">
                         <a href="/" class="btn btn-primary w-100">Все проишествия</a>
@@ -72,7 +72,7 @@
                     </div>
                     <div class="btn-group-row d-flex flex-wrap gap-2">
                         <a href="/" class="btn btn-primary w-100">Все клиенты</a>
-                        <a href="/agent/clients_to_approve" class="btn btn-primary w-100">Клиенты для подтверждения</a>
+                        <a href="/clients_to_approve" class="btn btn-primary w-100">Клиенты для подтверждения</a>
                     </div>
                     {% endif %}
                     <div class="btn-group-row d-flex flex-wrap gap-2">

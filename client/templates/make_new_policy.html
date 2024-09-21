@@ -14,7 +14,7 @@
                 <option value="КАСКО">КАСКО</option>
             </select><br>
             <input required placeholder="Дата начала действия полиса" class="form-control" type="date" id="date_start" name="date_start"><br>
-            <input required placeholder="Дата окончания действия полиса" class="form-control" type="date" id="date_stop" name="date_stop" maxlength="4"><br>
+            <input required placeholder="Дата окончания действия полиса" class="form-control" type="date" id="date_stop" name="date_stop"><br>
             <select required class="form-control" id="car_brand" name="car_brand">
                 <option value="" disabled selected>Марку авто</option>
                 <option value="BMW">BMW</option>
@@ -38,8 +38,9 @@
                 <option value="SUBARU">SUBARU</option>
                 <option value="FERRARI">FERRARI</option>
             </select><br>
-            <input required placeholder="Год выпуска авто" class="form-control" type="number" id="year_of_manufacture" name="year_of_manufacture" maxlength="6"><br>
-            <input required placeholder="Сумма выплаты" class="form-control" type="number" id="sum_insurance" name="sum_insurance" maxlength="6"><br>
+            <input required placeholder="Год выпуска авто" class="form-control" type="number" id="year_of_manufacture" name="year_of_manufacture"><br>
+            <input required placeholder="Номер автомобиля" class="form-control" type="text" id="car_number" name="car_number"><br>
+            <input required placeholder="Сумма выплаты" class="form-control" type="number" id="sum_insurance" name="sum_insurance"><br>
             <button class="btn btn-success" type="submit">Отправить заявку</button>
         </form>
         <p class="p-3 text-danger">{{ error }}</p>
