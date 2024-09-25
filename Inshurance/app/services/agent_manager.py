@@ -22,7 +22,7 @@ class AgentManager:
         query = "SELECT * FROM Policies WHERE status = %s"
         params = ('Активный', )
         result = execute_query(query, params, return_json=True)
-        print(result, '\n\n\n')
+        
         if result:
             for i in result:
                 i['date_start'] = str(i['date_start'])

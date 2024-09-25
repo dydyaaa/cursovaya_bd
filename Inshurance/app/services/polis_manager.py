@@ -28,7 +28,7 @@ class PolisManager:
     
     def get_my_insurance(current_user):
         
-        query = """SELECT c.date, c.description, c.status, c.sum_payment
+        query = """ SELECT c.date, c.description, c.status, c.sum_payment
                     FROM Cases c
                     JOIN Policies p
                     ON c.policy_id = p.policy_id
@@ -70,7 +70,8 @@ class PolisManager:
         if date_stop < date_start:
             return jsonify({"result": "Дата начала действия полиса не может быть позже даты окончания!"}), 403
         
-        query = """SELECT c.client_id FROM Clients c
+        query = """ SELECT c.client_id 
+                    FROM Clients c
                     JOIN Users u 
                     ON c.user_id = u.user_id
                     WHERE u.user_id = %s"""
@@ -120,16 +121,17 @@ class PolisManager:
             return jsonify({"result": 'Ваш полис не активен!'}), 400
         
         query = """INSERT INTO Cases (
-            policy_id, 
-            date,
-            description
-            ) VALUES (%s, %s, %s)"""
+                    policy_id, 
+                    date,
+                    description
+                    ) VALUES (%s, %s, %s)"""
             
         params = (policy_id, date, description)
         
         r = execute_query(query, params)
-        print(r)
-        query = """UPDATE Polisies SET status = 'Рассматривается случай' WHERE policy_id = %s"""
+        
+        query = """ UPDATE Polisies SET status = 'Рассматривается случай' 
+                    WHERE policy_id = %s"""
         params= (policy_id, )
         execute_query(query, params) 
         

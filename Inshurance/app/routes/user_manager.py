@@ -93,3 +93,10 @@ def calculator():
                                   car_brand,
                                   year_of_manufacture,
                                   sum_insurance)
+    
+
+@user_bp.route('/api/test_route')
+@login_required
+@permission_required('Admin')
+def test_route():
+    return UserManager.test_route()

@@ -343,7 +343,7 @@ def policy_to_approve():
     
     data = response.json()
     
-    return render_template('policy_to_approve.html', data=data)
+    return render_template('policy_to_approve.html', data=data, token=token)
 
 
 @app.route('/approve_polis', methods=['POST'])

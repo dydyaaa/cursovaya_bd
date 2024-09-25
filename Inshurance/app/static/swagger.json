@@ -1,0 +1,53 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "Simple Flask API",
+      "version": "1.0.0",
+      "title": "Flask API"
+    },
+    "host": "localhost:5001",
+    "basePath": "/",
+    "schemes": [
+      "http",
+      "https"
+    ],
+    "paths": {
+      "/api/home": {
+        "get": {
+          "summary": "Returns a greeting message",
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/hello": {
+        "post": {
+          "summary": "Returns a home page message",
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  

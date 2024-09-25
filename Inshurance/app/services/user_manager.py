@@ -252,6 +252,14 @@ class UserManager:
         
         return total_cost
     
+    
+    def test_route():
+        
+        query = "SELECT * FROM Users"
+        result = execute_query(query)
+        
+        return jsonify({"result": result}), 200
+    
     @staticmethod
     def create_token(user_login):
         

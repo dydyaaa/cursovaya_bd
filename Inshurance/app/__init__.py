@@ -1,3 +1,4 @@
+from flask_swagger_ui import get_swaggerui_blueprint
 from flask import Flask, jsonify
 from datetime import datetime
 import logging
@@ -14,6 +15,17 @@ def create_app():
     with open(config_path) as config_file:
         config = json.load(config_file)
         app.config['SECRET_KEY'] = config.get('SECRET_KEY')
+        
+    SWAGGER_URL = '/swagger'  
+    API_URL = '/static/swagger.json'    
+    swaggerui_blueprint = get_swaggerui_blueprint(
+        SWAGGER_URL,
+        API_URL,
+        config={  
+            'app_name': "Flask API"
+        }
+    )
+    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
     
     from .routes.user_manager import user_bp 
     app.register_blueprint(user_bp)
