@@ -1,4 +1,24 @@
 services:
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./Inshurance
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_ENV=production
+    depends_on:
+      - db_curs
+  
   db_curs:
     container_name: db_curs
     ports:
