@@ -57,7 +57,24 @@ def make_new_inshurance(current_user):
         
         return PolisManager.make_new_inshurance(policy_id,
                                                 date,
-                                                description,
-                                                )
+                                                description)
     
     return PolisManager.get_my_polis(current_user)
+
+
+@polis_bp.route('/api/add_new_car', methods=['POST'])
+@login_required
+@permission_required('Client')
+def add_new_car(current_user):
+    data = request.json
+    
+    car_brand = data.get('car_brand'),
+    year_of_manufacture = data.get('year_of_manufacture'),
+    car_number = data.get('car_number'),
+    damage_description = data.get('damage_description')
+    
+    return PolisManager.add_new_car(car_brand,
+                                    year_of_manufacture,
+                                    car_number,
+                                    damage_description,
+                                    current_user)

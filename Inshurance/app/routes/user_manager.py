@@ -96,7 +96,9 @@ def calculator():
     
 
 @user_bp.route('/api/test_route')
-@login_required
-@permission_required('Admin')
 def test_route():
-    return UserManager.test_route()
+    token = request.headers['Authorization']
+    if token == '--B--':       
+        return UserManager.test_route()
+    else:
+        return jsonify({"result": "Access denied"}), 403

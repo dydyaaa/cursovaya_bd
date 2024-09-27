@@ -9,9 +9,6 @@ def initialize_database():
                 client_id               INTEGER,
                 date_start              DATE            NOT NULL,
                 date_stop               DATE            NOT NULL,
-                car_brand               VARCHAR(255)    NOT NULL,
-                year_of_manufacture     INTEGER         NOT NULL,
-                car_number              VARCHAR(255)    NOT NULL,
                 policy_cost             INTEGER         NOT NULL,
                 sum_insurance           INTEGER         NOT NULL,
                 status                  VARCHAR(255)    DEFAULT 'На проверке'
@@ -41,6 +38,7 @@ def initialize_database():
                 agent_id        SERIAL          PRIMARY KEY,
                 agent_name      VARCHAR(255)    NOT NULL,
                 agent_role      VARCHAR(255)    NOT NULL,
+                hiring date     DATE            NOT NULL,
                 user_id         INTEGER         NOT NULL
     );'''
 
@@ -62,7 +60,7 @@ def initialize_database():
 
     # =============================================
 
-    query = ''' CREATE TABLE Users (
+    query = ''' CREATE TABLE IF NOT EXISTS Users (
                 user_id             SERIAL          PRIMARY KEY,
                 user_login          VARCHAR(255)    NOT NULL        UNIQUE,
                 password_hash       VARCHAR(255)    NOT NULL,
@@ -70,3 +68,18 @@ def initialize_database():
     );'''
 
     execute_query(query)
+    
+    # =============================================
+    
+    query = ''' CREATE TABLE IF NOT EXISTS Cars (
+                car_id                  SERIAL          PRIMARY KEY,
+                client_id               INTEGER         NOT NULL,
+                car_brand               VARCHAR(255)    NOT NULL            UNIQUE,    
+                year_of_manufacture     INTEGER         NOT NULL,
+                car_number              VARCHAR(255)    NOT NULL,
+                damage_description      TEXT
+    );'''
+    
+    execute_query(query)
+    
+    # =============================================

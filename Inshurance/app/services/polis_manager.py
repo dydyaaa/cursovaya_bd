@@ -136,3 +136,7 @@ class PolisManager:
         execute_query(query, params) 
         
         return jsonify({"result": "vrode ok"}), 200
+    
+    
+    def add_new_car():
+        pass
