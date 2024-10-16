@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from app.utils import login_required, permission_required
 from ..services.user_manager import UserManager
+from ..services.calculator import Calculator
 
 
 user_bp = Blueprint('user_bp', __name__)
@@ -51,54 +52,20 @@ def change_password(current_user):
     return UserManager.change_password(current_user, user_password_first)
 
 
-@user_bp.route('/api/profile', methods=['GET'])
-@login_required
-def profile(current_user):
-    
-    return UserManager.profile(current_user)
-
-@user_bp.route('/api/become_client', methods=['POST'])
-@login_required
-@permission_required('guest')
-def become_client(current_user):
-    
-    data = request.json
-    
-    return UserManager.become_client(data, current_user)
-
-@user_bp.route('/api/change_client_data', methods=['POST'])
-@login_required
-@permission_required('Client')
-def change_client_data(current_user):
-    
-    data = request.json
-    
-    return UserManager.change_client_data(data, current_user)
-
-@user_bp.route('/api/calculator', methods=['GET', 'POST'])
+@user_bp.route('/api/calculator/osago', methods=['GET', 'POST'])
 def calculator():
     
     data = request.json
     
-    policy_type = data.get('policy_type')
-    date_start = data.get('date_start')
-    date_stop = data.get('date_stop')
     car_brand = data.get('car_brand')
-    year_of_manufacture = data.get('year_of_manufacture')
-    sum_insurance = data.get('sum_insurance')
+    car_model = data.get('car_model')
+    year = data.get('year')
+    duration = data.get('duration')
+    drivers = data.get('drivers')
     
-    return UserManager.calculator(policy_type,
-                                  date_start,
-                                  date_stop,
-                                  car_brand,
-                                  year_of_manufacture,
-                                  sum_insurance)
+    return Calculator.calculation_osago(car_brand,
+                                        car_model,
+                                        year,
+                                        duration,
+                                        drivers)
     
-
-@user_bp.route('/api/test_route')
-def test_route():
-    token = request.headers['Authorization']
-    if token == '--B--':       
-        return UserManager.test_route()
-    else:
-        return jsonify({"result": "Access denied"}), 403

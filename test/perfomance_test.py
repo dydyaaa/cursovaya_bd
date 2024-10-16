@@ -61,7 +61,7 @@ async def test_api_performance(url, num_users, test_duration):
 # Пример использования:
 if __name__ == "__main__":
     url = "https://sogazik.ru/"
-    num_users = 200
-    test_duration = 50
+    num_users = int(input('Введите количество виртуальных пользователей: '))
+    test_duration = int(input('Введите длительность теста в секундах: '))
 
     asyncio.run(test_api_performance(url, num_users, test_duration))
