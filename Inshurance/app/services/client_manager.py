@@ -1,6 +1,7 @@
 from flask import jsonify
 from datetime import datetime
 from app.utils import execute_query
+from ..services.calculator import Calculator
 
 
 class ClientManager:
@@ -80,6 +81,15 @@ class ClientManager:
         
         execute_query(query, params)
         
+        query = ''' UPDATE Users
+                    SET user_role = 'Client'
+                    WHERE user_id = %s
+                '''
+        
+        params = (user_id, )
+        
+        execute_query(query, params)
+        
         return jsonify({"result": "Успешно!"}), 200
     
     def change_client_data(client_first_name,
@@ -147,3 +157,25 @@ class ClientManager:
         execute_query(query, params)
         
         return({"result": "Успешно!"}), 200
+    
+    def make_new_policy(policy_type,
+                        date_start,
+                        policy_duration,
+                        region,
+                        user_id,
+                        car_brand,
+                        car_model,
+                        year_manufacture,
+                        state_number,
+                        damage_description,
+                        drivers):
+        
+        cost = Calculator.calculation(policy_type,
+                                      region,
+                                      car_brand,
+                                      car_model,
+                                      year_manufacture,
+                                      policy_duration,
+                                      drivers)
+        
+        return jsonify({"result": cost}), 200

@@ -38,6 +38,7 @@ def initialize_database():
                 date_start                  DATE            NOT NULL,
                 date_stop                   DATE            NOT NULL,
                 policy_cost                 INTEGER         NOT NULL,
+                region                      VARCHAR(255)    NOT NULL,
                 car_id                      INTEGER         NOT NULL,
                 client_id                   INTEGER         NOT NULL,
                 agent_id                    INTEGER         NOT NULL
@@ -106,7 +107,7 @@ def initialize_database():
                 case_date                   DATE            NOT NULL,
                 agent_id                    INTEGER         NOT NULL,    
                 policy_id                   INTEGER         NOT NULL,
-                case_description          TEXT            NOT NULL,
+                case_description            TEXT            NOT NULL,
                 case_status                 VARCHAR(255)    NOT NULL
     );'''
     

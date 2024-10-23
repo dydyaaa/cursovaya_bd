@@ -62,3 +62,35 @@ def change_client_data(current_user):
                                             address,
                                             client_email,
                                             user_id)
+    
+    
+@client_bp.route('/api/make_new_policy', methods=['POST'])
+@login_required
+@permission_required('Client')
+def make_new_policy(current_user):
+    
+    data = request.json
+    
+    policy_type = data.get('policy_type')
+    date_start = data.get('date_start')
+    policy_duration = data.get('policy_duration')
+    region = data.get('region')
+    user_id = current_user[0].get('user_id')
+    car_brand = data.get('car_brand')
+    car_model = data.get('car_model')
+    year_manufacture = data.get('year_manufacture')
+    state_number = data.get('state_number')
+    damage_description = data.get('damage_description')
+    drivers = data.get('drivers')
+    
+    return ClientManager.make_new_policy(policy_type,
+                                         date_start,
+                                         policy_duration,
+                                         region,
+                                         user_id,
+                                         car_brand,
+                                         car_model,
+                                         year_manufacture,
+                                         state_number,
+                                         damage_description,
+                                         drivers)
