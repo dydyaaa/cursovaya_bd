@@ -12,7 +12,7 @@ region = {
 }
 
 policy_duration_factors = {
-    '1 день': 0.05,
+    '1 день': 0.1,
     '1 месяц': 0.2,
     '3 месяца': 0.5,
     '6 месяцев': 0.7,
@@ -54,7 +54,8 @@ class Calculator:
         
         query = ''' SELECT coefficient FROM brands
                     WHERE brand = %s AND (model = %s OR model = 'default')
-                    LIMIT 1'''
+                    LIMIT 1
+                '''
         
         params = (car_brand, car_model)
         car_coefficient = float(execute_query(query, params)[0][0])

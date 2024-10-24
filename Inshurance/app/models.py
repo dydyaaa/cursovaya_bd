@@ -41,7 +41,8 @@ def initialize_database():
                 region                      VARCHAR(255)    NOT NULL,
                 car_id                      INTEGER         NOT NULL,
                 client_id                   INTEGER         NOT NULL,
-                agent_id                    INTEGER         NOT NULL
+                agent_id                    INTEGER         NOT NULL,
+                status                      VARCHAR(255)    NOT NULL
     );'''
     
     execute_query(query)

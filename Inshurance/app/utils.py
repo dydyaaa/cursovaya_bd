@@ -35,10 +35,11 @@ def execute_query(query, params=None, return_json=None):
             else:
                 cursor.execute(query)
 
-            if query_type != 'SELECT':
+            if query_type in ['SELECT', 'INSERT', 'UPDATE', 'DELETE'] and 'RETURNING' in query.upper():
+                result = cursor.fetchone() 
                 connection.close()
-                return None
-            else:
+                return result
+            elif query_type == 'SELECT':
                 result = cursor.fetchall()
                 if return_json == True:
                     colnames = [desc[0] for desc in cursor.description]

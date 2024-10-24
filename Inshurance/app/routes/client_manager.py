@@ -94,3 +94,38 @@ def make_new_policy(current_user):
                                          state_number,
                                          damage_description,
                                          drivers)
+    
+    
+@client_bp.route('/api/add_driver', methods=['POST'])
+@login_required
+@permission_required('Client')
+def add_drivers(current_user):
+    
+    data = request.json
+    
+    policy_id = data.get('policy_id')
+    drivers = data.get('drivers')
+    
+    return ClientManager.add_drivers(policy_id,
+                                     drivers)
+    
+
+@client_bp.route('/api/get_my_policies', methods=['GET'])
+@login_required
+@permission_required('Client')
+def get_my_policies(current_user):
+    
+    user_id = current_user[0].get('user_id')
+    
+    return ClientManager.get_my_policies(user_id)
+
+
+@client_bp.route('/api/get_full_policy/<int:policy_id>', methods=['GET'])
+@login_required
+@permission_required('Client')
+def get_full_policy(current_user, policy_id):
+    
+    user_id = current_user[0].get('user_id')
+    
+    return ClientManager.get_full_policy(user_id,
+                                         policy_id)
